@@ -1,0 +1,22 @@
+int main(int argc, char *argv[])
+{
+    QApplication a(argc, argv);
+
+    QSvgRenderer render;
+    render.load (QString("circle.svg"));
+
+    QSize size = render.defaultSize ();
+    QPixmap pix(size*5);        / / Can be directly zooming in here
+    pix.fill (Qt::transparent); // pixel clear
+
+    QPainter painter(&pix);
+    painter.setRenderHints (QPainter::Antialiasing);
+    render.render (&painter);
+
+    QLabel label;
+    label.setPixmap (pix);
+    label.setAlignment (Qt::AlignCenter);
+
+    label.show ();
+    return a.exec();
+}
