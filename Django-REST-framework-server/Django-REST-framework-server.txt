@@ -20,6 +20,7 @@ $ sudo git clone git@github.com:vakhnin/start-Django-REST-framework.git
 
 cd start-Django-REST-framework/
 python3 -m venv env
+$ pip install -U pip
 $ source env/bin/activate
 $ sudo pip3 install -r requirements.txt
 
@@ -31,32 +32,67 @@ $ sudo python3 manage.py runserver
 
 $ gunicorn --bind 127.0.0.1:8000 tutorial.wsgi
 
-???
+
+sudo adduser django 
+sudo usermod -aG sudo django
 
 
 
-???
+sudo chown -R www-data:www-data /var/www
+sudo usermod -aG www-data django
+sudo chmod go-rwx /var/www
+sudo chmod go+x /var/www
+sudo chgrp -R www-data /var/www
+sudo chmod -R go-rwx /var/www
+sudo chmod -R g+rwx /var/www
 
 
 
 
+$ sudo nano /etc/systemd/system/gunicorn.socket
+>>>>>>>>>>>
+[Unit]
+Description=gunicorn socket
 
+[Socket]
+ListenStream=/run/gunicorn.sock
+
+[Install]
+WantedBy=sockets.target
+<<<<<<<<<<<
 
 
 
 $ sudo nano /etc/systemd/system/gunicorn.service
 >>>>>>>>>>>
-[Unit] 
-Description=gunicorn daemon After=network.target
+[Unit]
+Description=gunicorn daemon
+Requires=gunicorn.socket
+After=network.target
 
 [Service]
-User=root 
-Group=root 
-WorkingDirectory=/var/www/start-Django-REST-framework/ ExecStart=/home/django/geekshop/env/bin/gunicorn --access-logfile --workers 3 --bind unix:/home/django/geekshop/geekshop.sock geekshop.wsgi
+User=django
+Group=www-data
+WorkingDirectory=/var/www/start-Django-REST-framework
+ExecStart=/var/www/start-Django-REST-framework/env/bin/gunicorn \
+          --access-logfile - \
+          --workers 5 \
+          --bind unix:/run/gunicorn.sock \
+          myproject.wsgi:application
 
-[Install] WantedBy=multi-user.target
+[Install]
+WantedBy=multi-user.target
 <<<<<<<<<
 
+$ sudo chown -R django /var/www/start-Django-REST-framework
+$ sudo chmod -R 755 /var/www/start-Django-REST-framework
+
+
+
+$ sudo systemctl enable gunicorn.socket
+$ sudo systemctl enable gunicorn.service
+
+$ sudo systemctl start gunicorn
 
 
 
