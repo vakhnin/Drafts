@@ -32,7 +32,7 @@ $ source env/bin/activate
 (env) pip3 install gunicorn
 (env) python3 manage.py migrate
 (env) python3 manage.py runserver
-(env) gunicorn --bind 127.0.0.1:8000 tutorial.wsgi
+(env) gunicorn --bind 127.0.0.1:80 tutorial.wsgi
 (env) python3 manage.py collectstatic
 (env) deactivate 
 $ exit
@@ -91,36 +91,8 @@ $ sudo systemctl enable gunicorn.service
 $ sudo systemctl start gunicorn
 
 $ sudo apt install nginx -y
+
 $ sudo nano /etc/nginx/sites-available/default
-$ sudo systemctl restart nginx
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-sudo nano /etc/nginx/sites-available/start-Django-REST-framework
 >>>>>>>>>>>>
 server {
     listen 80;
@@ -128,11 +100,11 @@ server {
 
     location = /favicon.ico { access_log off; log_not_found off; }
     location /static/ {
-        alias  /home/django/start-Django-REST-framework/static;
+        root  /home/django/start-Django-REST-framework/;
     }
 
     location /media/ {
-        alias  /home/django/start-Django-REST-framework/media;
+        root  /home/django/start-Django-REST-framework/;
     }
 
     location / {
