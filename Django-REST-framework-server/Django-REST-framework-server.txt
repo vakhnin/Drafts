@@ -24,7 +24,7 @@ https://github.com/vakhnin/start-Django-REST-framework/settings/keys
 $ cd /home/django/
 $ git clone git@github.com:vakhnin/start-Django-REST-framework.git
 
-cd start-Django-REST-framework/
+$ cd start-Django-REST-framework/
 $ python3 -m venv env
 $ source env/bin/activate
 (env) pip install -U pip
@@ -35,6 +35,7 @@ $ source env/bin/activate
 (env) gunicorn --bind 127.0.0.1:8000 tutorial.wsgi
 (env) python3 manage.py collectstatic
 (env) deactivate 
+$ exit
 
 
 
@@ -87,8 +88,37 @@ WantedBy=multi-user.target
 
 $ sudo systemctl enable gunicorn.socket
 $ sudo systemctl enable gunicorn.service
-
 $ sudo systemctl start gunicorn
+
+$ sudo apt install nginx -y
+$ sudo nano /etc/nginx/sites-available/default
+$ sudo systemctl restart nginx
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 sudo nano /etc/nginx/sites-available/start-Django-REST-framework
 >>>>>>>>>>>>
@@ -111,29 +141,5 @@ server {
     }
 }
 <<<<<<<<<<<<<
-??????
-	# Javascript and CSS files
-    location ~* \.(?:css|js)$ {
-        try_files $uri =404;
-        expires 1y;
-        access_log off;
-        add_header Cache-Control "public";
-	}
-?????
 
-sudo ln -s /etc/nginx/sites-available/start-Django-REST-framework /etc/nginx/sites-enabled
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+$ sudo systemctl restart nginx
