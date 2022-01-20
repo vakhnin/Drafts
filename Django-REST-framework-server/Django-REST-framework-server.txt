@@ -32,8 +32,9 @@ $ source env/bin/activate
 (env) pip3 install gunicorn
 (env) python3 manage.py migrate
 (env) python3 manage.py runserver
-
 (env) gunicorn --bind 127.0.0.1:8000 tutorial.wsgi
+(env) python3 manage.py collectstatic
+(env) deactivate 
 
 
 
@@ -97,11 +98,11 @@ server {
 
     location = /favicon.ico { access_log off; log_not_found off; }
     location /static/ {
-        root /home/django/start-Django-REST-framework;
+        alias  /home/django/start-Django-REST-framework/static;
     }
 
     location /media/ {
-        root /home/django/start-Django-REST-framework;
+        alias  /home/django/start-Django-REST-framework/media;
     }
 
     location / {
@@ -110,8 +111,21 @@ server {
     }
 }
 <<<<<<<<<<<<<
+??????
+	# Javascript and CSS files
+    location ~* \.(?:css|js)$ {
+        try_files $uri =404;
+        expires 1y;
+        access_log off;
+        add_header Cache-Control "public";
+	}
+?????
 
 sudo ln -s /etc/nginx/sites-available/start-Django-REST-framework /etc/nginx/sites-enabled
+
+
+
+
 
 
 
