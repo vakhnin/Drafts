@@ -11,6 +11,7 @@ sudo docker ps -a
 
 Зайти внутрь контейнера
 sudo docker exec –it <ID контейнера> sh
+
 Очистка всех остановленных контейнеров и образов:
 sudo docker system prune -a
 
